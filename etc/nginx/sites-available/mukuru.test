@@ -1,0 +1,43 @@
+server {
+        listen   80 default_server;
+        server_name mukuru.test api.mukuru.test;
+        access_log  /var/log/nginx/mukuru.test-access.log;
+        error_log  /var/log/nginx/mukuru.test-error.log;
+        root            /var/www/mukuru.test/public;
+        index index.php index.html;
+        #Force no caching
+        expires -1;
+
+        # location ~ \.php$ {
+        location /index.php {
+        include /etc/nginx/fastcgi_params;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index  index.php;
+
+        # fastcgi_split_path_info ^(/)(.*)$;
+        fastcgi_param SCRIPT_FILENAME /var/www/mukuru.test/public/index.php;
+        fastcgi_param PATH_INFO /$2;
+        fastcgi_param DOCUMENT_ROOT /var/www/mukuru.test/public;
+        fastcgi_param SERVER_NAME $http_host;
+    }
+
+    location / {
+        try_files $uri $uri/ @laravel;
+    }
+
+    #Restrict access to application and laravel system folders
+    location /(app|laravel) { #2.0, uncomment this and comment above to use - remember to edit application to your apps folder if changed
+        internal;
+    }
+
+    location @laravel {
+        include /etc/nginx/fastcgi_params;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index  index.php;
+
+        fastcgi_split_path_info ^(/)(.*)$;
+        fastcgi_param SCRIPT_FILENAME /var/www/mukuru.test/public/index.php;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_param DOCUMENT_ROOT /var/www/mukuru.test/public/;
+    }
+}
