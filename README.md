@@ -74,7 +74,7 @@ Installation:
         php composer.phar update
 
 * Ok lets create the db and db user and seed the db (I've added a dump of the db structure and data to app/database/db_backups if required)
-  # If you would like to use your own db and user, you can skip this step and configure the db credentials in app/config/database.php under the mysql section
+  - If you would like to use your own db and user, you can skip this step and configure the db credentials in app/config/database.php under the mysql section
 
         php artisan db:create
 
