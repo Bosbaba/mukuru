@@ -16,6 +16,9 @@ I'm going to use the following technologies, packages and frameworks
  * php5-fpm
  * php5-cli
  * php5-curl
+ * php5-mcrypt
+ * php5-mysql
+ * mysql-server
  * Laravel (php framework)
  * REST API
 	
@@ -57,20 +60,19 @@ Installation:
 
 * Installing all the php5 bits and bobs
 
-		sudo apt-get install -y php5-fpm php5-cli php5-mysql php5-mcrypt php5-curl
+		sudo apt-get install -y php5-fpm php5-cli php5-mysql php5-mcrypt php5-curl git
 		sudo service php5-fpm restart
 
-* Lets make sure the default nginx webroot directory exists (You can change this if are using a different webroot)
+* Lets clone the project into your webroot (You can change this if are using a different webroot)
 
-        mkdir -p /var/www/mukuru.test
+        cd /var/www/
+		git clone https://github.com/Bosbaba/mukuru.git mukuru.test
 
-* Extract the project tar ball into this directory
 
-        tar zxvf mukuru.test.tar.gz
-        cd mukuru.test.tar.gz
+* In the project directory lets update composer and vendor files
 
-* In the project directory lets update composer and vendor files, although I've already included them
-
+		cd /var/www/mukuru.test
+        php composer.phar self-update
         php composer.phar update
 
 * Ok lets create the db and db user and seed the db (I've added a dump of the db structure and data to app/database/db_backups if required)
@@ -84,13 +86,13 @@ Installation:
         php artisan db:seed
 
 * Make sure the web server has read permissions for this project
-* Make sure the web server has write access to the following directory and its sub directories app/storage as it gets used for logs and sessions, etc
+* Make sure the web server has write access to the app/storage directory and its sub directoriese as it gets used for logs and sessions, etc
 * Now for the configurations. I've configured most of them, but you might want to change some of the following configs.
     - Configure app/config/app.php
         * url   - if you want to use a different url
     - Configure app/config/api.php
         * url   - If you want to use a different url
-    - Configure app/config/mail.php   - I've setup a temp smtp account for the mails sending, you can change this if required
+    - Configure app/config/mail.php   - I've setup a temp smtp account for the mails sending, please update the password with the supplied password or contact me on jaco(at)zendfusion(dot)co(dot)za
     - Configure app/config/mukuru.php - The details in here will be used for sending the emails
 
 The following steps are a bit out of scope I believe but use them if you like: (They should work if you use the pre-configured configs)
