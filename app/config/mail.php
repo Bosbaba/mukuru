@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'bnSSRJ-A',
+	'password' => 'xxxxxxxxxx',			//Please contact me on jaco(at)zendfusion(dot)co(dot)za for the correct password
 
 	/*
 	|--------------------------------------------------------------------------
